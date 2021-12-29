@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const InputField = props => {
 
-    const { label, type, value, handleChange } = props;
+    const { name, label, type, value, handleChange } = props;
 
     return (
         <TextField
@@ -12,6 +12,7 @@ const InputField = props => {
             type={type}
             value={value}
             onChange={handleChange}
+            name={name}
             variant='outlined'
             color='primary'
         />
@@ -20,6 +21,7 @@ const InputField = props => {
 
 InputField.propTypes = {
     type: PropTypes.string.isRequired,
+    name: PropTypes.string,
     label: PropTypes.string,
     handleChange: PropTypes.func,
 }
