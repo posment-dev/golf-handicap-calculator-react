@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import AddCourse from './AddCourse';
+import AddRound from './AddRound';
+import NavBar from './NavBar';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
+
+  const handleSubmit = () => {
+    console.log('Click happened');
+    alert('Hello');
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <NavBar />
       </header>
+      <Routes>
+        <Route path='/courses'
+          element={<AddCourse handleSubmit={handleSubmit} />} />
+        <Route exact path='/' element={<AddRound handleSubmit={handleSubmit} />} />
+      </Routes>
     </div>
   );
 }
