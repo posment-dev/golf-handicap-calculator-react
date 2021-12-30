@@ -6,53 +6,50 @@ import IconButton from '@mui/material/IconButton';
 
 import PropTypes from 'prop-types';
 
-class AddCourse extends React.Component {
-
-
-    render () {
-        const { handleSubmit } = this.props;
-        return (
-            <form onSubmit={(event) => handleSubmit(event)}>
-                <h1>Add Course</h1>
-                <div style={{ display: 'inline-flex' }}>
-                    <InputField
-                        type='text'
-                        label='Course Name'
-                        name='courseName'
-                    />
-                    <InputField
-                        type='text'
-                        label='Tees'
-                        name='tees'
-                    />
-                    </div>
-                    <div style={{ display: 'inline-flex' }}>
-                    <InputField
-                        type='number'
-                        label='Par'
-                        name='par'
-                    />
-                    <InputField
-                        type='number'
-                        label='CR'
-                        name='courseRating'
-                    />
-                    <InputField
-                        type='number'
-                        label='Slope'
-                        name='slope'
-                    />
-                    <IconButton
-                        type='submit'
-                        color='primary'
-                        size='large'
-                    >
-                        <Save />
-                    </IconButton>
+function AddCourse(props) {
+    
+    const { handleSubmit } = props;
+    return (
+        <form onSubmit={(event) => handleSubmit(event)}>
+            <h1>Add Course</h1>
+            <div style={{ display: 'inline-flex' }}>
+                <InputField
+                    type='text'
+                    label='Course Name'
+                    name='courseName'
+                />
+                <InputField
+                    type='text'
+                    label='Tees'
+                    name='tees'
+                />
                 </div>
-            </form>
-        )
-    }
+                <div style={{ display: 'inline-flex' }}>
+                <InputField
+                    type='number'
+                    label='Par'
+                    name='par'
+                />
+                <InputField
+                    type='text'
+                    label='CR'
+                    name='courseRating'
+                />
+                <InputField
+                    type='number'
+                    label='Slope'
+                    name='slope'
+                />
+                <IconButton
+                    type='submit'
+                    color='primary'
+                    size='large'
+                >
+                    <Save />
+                </IconButton>
+            </div>
+        </form>
+    )
 }
 
 AddCourse.propTypes = {
