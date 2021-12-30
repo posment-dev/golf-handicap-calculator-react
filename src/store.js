@@ -47,7 +47,7 @@ function courses (state = [], action) {
 function rounds (state = [], action) {
     switch(action.type) {
     case ADD_ROUND :
-        return state.concat([action.goal])
+        return state.concat([action.round])
     case REMOVE_ROUND :
         return state.filter((goal) => goal.id !== action.id)
     default :
@@ -83,6 +83,7 @@ const logger = (store) => (next) => (action) => {
 }
 
 export const selectCourses = (state) => store.getState().courses;
+export const selectRounds = (state) => store.getState().rounds;
 
 const store = createStore(combineReducers({
     courses,
