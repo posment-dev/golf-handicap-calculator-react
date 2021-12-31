@@ -6,23 +6,37 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 const options = [
-  'Goldenberg',
-  'Otelfingen',
-  'Augwil',
-  'Küssnacht',
+  {
+    courseId: 1,
+    name: 'Goldenberg',
+  },
+  {
+    courseId: 2,
+    name: 'Otelfingen'
+  },
+  {
+    courseId: 3,
+    name: 'Augwil'
+  },
+  {
+    courseId: 4,
+    name: 'Küssnacht'
+  }
 ];
+
+console.log(options);
 
 export default function SimpleListMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedCourse, setSelectedCourse] = React.useState(0);
   const open = Boolean(anchorEl);
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    console.log(options[selectedIndex]);
+  const handleMenuItemClick = (event, courseId) => {
+    setSelectedCourse(courseId);
+    console.log(options.filter(course => course.courseId === selectedCourse));
     setAnchorEl(null);
   };
 
@@ -46,7 +60,7 @@ export default function SimpleListMenu() {
           onClick={handleClickListItem}
         >
           <ListItemText
-            primary={options[selectedIndex]}
+            primary={options.filter(course => course.courseId === selectedCourse).map(course => course.name)}
           />
         </ListItem>
       </List>
@@ -60,11 +74,11 @@ export default function SimpleListMenu() {
           role: 'listbox',
         }}
       >
-        {options.map((option, index) => (
+        {options.map((option) => (
           <MenuItem
             key={option}
-            selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, index)}
+            selected={option.courseId === selectedCourse}
+            onClick={(event) => handleMenuItemClick(event, option.courseId)}
           >
             {option}
           </MenuItem>
