@@ -16,7 +16,7 @@ function App() {
     event.preventDefault();
     const round = {
       date: date,
-      //course: event.target.course.value,
+      course: event.target.selCourse.value,
       scoreTyp: event.target.scoreTyp.value,
       score: event.target.score.value,
       pcc: event.target.pcc.value,
@@ -26,7 +26,14 @@ function App() {
 
   const handleAddCourse = (event) => {
     event.preventDefault();
+    let highestId = 0;
+    courses.forEach(el => {
+      if(el.id > highestId) {
+        highestId = el.id;
+      }
+    });
     const course = {
+      id: highestId + 1,
       name: event.target.courseName.value,
       tees: event.target.tees.value,
       par: event.target.par.value,
@@ -48,7 +55,7 @@ function App() {
           <Route exact path='/' element={<AddRound handleSubmit={handleAddRound} />} />
         </Routes>
         <div className='coursesTable'>
-          {courses.map(course => <div key={course.name}>{JSON.stringify(course)}</div>)}
+          {courses.map(course => <div key={course.id}>{JSON.stringify(course)}</div>)}
         </div>
         <div className='roundsTable'>
           {rounds.map(round => <div key={round.date}>{JSON.stringify(round)}</div>)}

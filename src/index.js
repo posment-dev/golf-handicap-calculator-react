@@ -6,6 +6,10 @@ import store from './store';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { fetchCourses } from './store';
+
+// Fetch Data from DB, before component renders
+store.dispatch(fetchCourses());
 
 ReactDOM.render(
   <React.StrictMode>
