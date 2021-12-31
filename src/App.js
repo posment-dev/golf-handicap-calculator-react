@@ -4,7 +4,7 @@ import AddRound from './AddRound';
 import NavBar from './NavBar';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addRoundAction, addCourseAction, selectCourses, selectRounds } from './store';
+import { addRoundAction, addCourseAction, selectCourses, selectRounds, removeCourseAction, removeRoundAction } from './store';
 import { findHighestIdObjectArray } from './Utils';
 
 function App() {
@@ -53,10 +53,20 @@ function App() {
           <Route exact path='/' element={<AddRound handleSubmit={handleAddRound} courses={courses} />} />
         </Routes>
         <div className='coursesTable'>
-          {courses.map(course => <div key={course.id}>{JSON.stringify(course)}</div>)}
+          {courses.map(course => (
+            <div key={course.id}>
+              {JSON.stringify(course)}
+              <button onClick={() => dispatch(removeCourseAction(course.id))}>XXX</button>
+            </div>
+          ))}
         </div>
         <div className='roundsTable'>
-          {rounds.map(round => <div key={round.id}>{JSON.stringify(round)}</div>)}
+          {rounds.map(round => (
+            <div key={round.id}>
+              {JSON.stringify(round)}
+              <button onClick={() => dispatch(removeRoundAction(round.id))}>XXX</button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

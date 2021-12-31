@@ -14,7 +14,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the courses.
 courseRoutes.route("/course").get(function (req, res) {
-  let db_connect = dbo.getDb("courses");
+  let db_connect = dbo.getDb();
   db_connect
     .collection("courses")
     .find({})
@@ -27,7 +27,7 @@ courseRoutes.route("/course").get(function (req, res) {
 // This section will help you get a single course by id
 courseRoutes.route("/course/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let myquery = { id: req.params.id};
+  let myquery = { _id: ObjectId( req.params.id )};
   console.log('\n Get Course by ID: ' + req.params.id + "\n")
   db_connect
       .collection("courses")
@@ -58,7 +58,7 @@ courseRoutes.route("/course/add").post(function (req, response) {
 // This section will help you update a course by id.
 courseRoutes.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
-  let myquery = { id: req.params.id};
+  let myquery = { _id: ObjectId( req.params.id )};
   let newvalues = {
     $set: {
       id : req.body.id,

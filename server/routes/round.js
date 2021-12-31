@@ -12,7 +12,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 // This section will help you get a list of all the rounds.
 roundRoutes.route("/round").get(function (req, res) {
-  let db_connect = dbo.getDb("rounds");
+  let db_connect = dbo.getDb();
   db_connect
     .collection("rounds")
     .find({})
@@ -79,7 +79,8 @@ roundRoutes.route("/round/update/:id").post(function (req, response) {
 // This section will help you delete a round
 roundRoutes.route("/round/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = { id: req.params.id };
+  console.log('This is the query to delete ' + JSON.stringify(myquery));
   db_connect.collection("rounds").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");

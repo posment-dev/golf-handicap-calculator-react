@@ -6,15 +6,8 @@ const ADD_COURSE = 'ADD_COURSE'
 const SET_COURSES = 'SET_COURSES'
 const REMOVE_COURSE = 'REMOVE_COURSE'
 const ADD_ROUND = 'ADD_ROUND'
+const SET_ROUNDS = 'SET_ROUNDS'
 const REMOVE_ROUND = 'REMOVE_ROUND'
-
-//let initailCourses = [];
-
-/*axios.get("http://localhost:5050/course/")
-    .then((response) => initailCourses = response.data)
-    .catch(function (error) {
-        console.log(error);
-    });*/
 
 export function addCourseAction (course) {
     return {
@@ -44,6 +37,13 @@ export function addRoundAction (round) {
     }
 }
 
+export function setRoundsAction (rounds) {
+    return {
+    type: SET_ROUNDS,
+    rounds,
+    }
+}
+
 export function removeRoundAction (id) {
     return {
     type: REMOVE_ROUND,
@@ -54,16 +54,15 @@ export function removeRoundAction (id) {
 function courses (state = [], action) {
     switch(action.type) {
     case ADD_COURSE :
-        axios
-        .post("http://localhost:5050/course/add", action.course)
-        .then((res) => console.log(res.data));
-        return state.concat([action.course])
+        axios.post("http://localhost:5050/course/add", action.course);
+        return state.concat([action.course]);
     case SET_COURSES :
         return action.courses;
     case REMOVE_COURSE :
-        return state.filter((course) => course.id !== action.id)
+        axios.delete('http://localhost:5050/course/' + action.id);
+        return state.filter((course) => course.id !== action.id);
     default :
-        return state
+        return state;
     }
 }
 
@@ -74,8 +73,11 @@ function rounds (state = [], action) {
         .post("http://localhost:5050/round/add", action.round)
         .then((res) => console.log(res.data));
         return state.concat([action.round])
+    case SET_ROUNDS :
+        return action.rounds;
     case REMOVE_ROUND :
-        return state.filter((goal) => goal.id !== action.id)
+        axios.delete('http://localhost:5050/round/' + action.id).then((response) => {console.log(response.data)});
+        return state.filter((round) => round.id !== action.id)
     default :
         return state
     }
@@ -93,17 +95,17 @@ export const fetchCourses = () => {
     }
 }
 
-/*export const fetchRounds = () => {
+export const fetchRounds = () => {
     return async dispatch => {
         try {
-            let courses = await axios.get("http://localhost:5050/course/");
-            dispatch(setCoursesAction(courses.data));
+            let rounds = await axios.get("http://localhost:5050/round/");
+            dispatch(setRoundsAction(rounds.data));
         }
         catch(e){
             console.log(e)
         }
     }
-}*/
+}
 
 /*const checker = (store) => (next) => (action) => {
     if (

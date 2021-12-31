@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import store from './store';
+import store, { fetchRounds, fetchCourses } from './store';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { fetchCourses } from './store';
 
 // Fetch Data from DB, before component renders
 store.dispatch(fetchCourses());
+store.dispatch(fetchRounds());
 
 ReactDOM.render(
   <React.StrictMode>
