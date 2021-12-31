@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRoundAction, addCourseAction, selectCourses, selectRounds } from './store';
+import { findHighestIdObjectArray } from './Utils';
 
 function App() {
 
@@ -14,9 +15,11 @@ function App() {
 
   const handleAddRound = (event, date) => {
     event.preventDefault();
+    const highestId = findHighestIdObjectArray(rounds);
     const round = {
+      id: highestId + 1,
       date: date,
-      course: event.target.selCourse.value,
+      courseId: event.target.selCourse.value,
       scoreTyp: event.target.scoreTyp.value,
       score: event.target.score.value,
       pcc: event.target.pcc.value,
@@ -26,12 +29,7 @@ function App() {
 
   const handleAddCourse = (event) => {
     event.preventDefault();
-    let highestId = 0;
-    courses.forEach(el => {
-      if(el.id > highestId) {
-        highestId = el.id;
-      }
-    });
+    const highestId = findHighestIdObjectArray(courses);
     const course = {
       id: highestId + 1,
       name: event.target.courseName.value,
@@ -52,13 +50,13 @@ function App() {
         <Routes>
           <Route path='/courses'
             element={<AddCourse handleSubmit={handleAddCourse} />} />
-          <Route exact path='/' element={<AddRound handleSubmit={handleAddRound} />} />
+          <Route exact path='/' element={<AddRound handleSubmit={handleAddRound} courses={courses} />} />
         </Routes>
         <div className='coursesTable'>
           {courses.map(course => <div key={course.id}>{JSON.stringify(course)}</div>)}
         </div>
         <div className='roundsTable'>
-          {rounds.map(round => <div key={round.date}>{JSON.stringify(round)}</div>)}
+          {rounds.map(round => <div key={round.id}>{JSON.stringify(round)}</div>)}
         </div>
       </div>
     </div>

@@ -5,31 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect() {
+import PropTypes from 'prop-types';
 
-  const options = [
-    {
-      id: 1,
-      name: 'Goldenberg',
-    },
-    {
-      id: 2,
-      name: 'Otelfingen'
-    },
-    {
-      id: 3,
-      name: 'Augwil'
-    },
-    {
-      id: 4,
-      name: 'Küssnacht'
-    }
-  ];
+export default function BasicSelect(props) {
 
+  const { courses } = props;
   const [selectedCourse, setSelectedCourse] = useState(1);
 
   useEffect(() => {
-    console.log(selectedCourse + ' - ' + options.filter(o => o.id === selectedCourse).map(o => o.name));
+    console.log(selectedCourse + ' - ' + courses.filter(o => o.id === selectedCourse).map(o => o.name));
   });
 
   const handleChange = (event) => {
@@ -48,11 +32,15 @@ export default function BasicSelect() {
           label="Course"
           onChange={handleChange}
         >
-            {options.map(option =>
-                <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
+            {courses.map(course =>
+                <MenuItem key={course.id} value={course.id}>{course.name}/{course.tees}</MenuItem>
             )}
         </Select>
       </FormControl>
     </Box>
   );
 }
+
+BasicSelect.propTypes = {
+  courses: PropTypes.array.isRequired
+};

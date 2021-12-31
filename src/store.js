@@ -70,6 +70,9 @@ function courses (state = [], action) {
 function rounds (state = [], action) {
     switch(action.type) {
     case ADD_ROUND :
+        axios
+        .post("http://localhost:5050/round/add", action.round)
+        .then((res) => console.log(res.data));
         return state.concat([action.round])
     case REMOVE_ROUND :
         return state.filter((goal) => goal.id !== action.id)
@@ -89,6 +92,18 @@ export const fetchCourses = () => {
         }
     }
 }
+
+/*export const fetchRounds = () => {
+    return async dispatch => {
+        try {
+            let courses = await axios.get("http://localhost:5050/course/");
+            dispatch(setCoursesAction(courses.data));
+        }
+        catch(e){
+            console.log(e)
+        }
+    }
+}*/
 
 /*const checker = (store) => (next) => (action) => {
     if (

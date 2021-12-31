@@ -24,33 +24,9 @@ import PropTypes from 'prop-types';
 
 function AddRound(props) {
 
-    const { handleSubmit } = props;
+    const { handleSubmit, courses } = props;
 
     const [date, setDate] = useState(new Date());
-    /*const [course, setCourse] = useState('');
-
-    const courses = [];
-
-    add dummy data to redux store
-    const dispatch = useDispatch();
-    let dummycourse = {
-        name: 'Goldi',
-        tees: 'Weiss',
-        par: 70,
-        cr: 69.8,
-        slope: 121,
-      };
-      dispatch(addCourseAction(dummycourse));
-      dummycourse = {
-          ...course,
-          tees: 'Gelb',
-      }
-      dispatch(addCourseAction(dummycourse));
-      const courses = useSelector(selectCourses);*/
-
-    /*const onScoreTypChange = (event) => {
-        // do something
-    }*/
     
     return (
         <form onSubmit={(event) => handleSubmit(event, date)}>
@@ -84,7 +60,7 @@ function AddRound(props) {
                         p: 1,
                         m: 1,
                     }}>
-                        <BasicSelect />
+                        <BasicSelect courses={courses}/>
                     </Box>
                 </Box>
                 <Box sx={{
