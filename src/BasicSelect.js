@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,10 +11,6 @@ export default function BasicSelect(props) {
 
   const { courses } = props;
   const [selectedCourse, setSelectedCourse] = useState(1);
-
-  useEffect(() => {
-    console.log(selectedCourse + ' - ' + courses.filter(o => o.id === selectedCourse).map(o => o.name));
-  });
 
   const handleChange = (event) => {
     setSelectedCourse(event.target.value);
