@@ -1,6 +1,6 @@
 import { createStore, combineReducers , applyMiddleware} from 'redux';
-import axios from 'axios';
 import thunk from 'redux-thunk';
+import axios from 'axios';
 
 const ADD_COURSE = 'ADD_COURSE'
 const SET_COURSES = 'SET_COURSES'
@@ -80,30 +80,6 @@ function rounds (state = [], action) {
         return state.filter((round) => round.id !== action.id)
     default :
         return state
-    }
-}
-
-export const fetchCourses = () => {
-    return async dispatch => {
-        try {
-            let courses = await axios.get("http://localhost:5050/course/");
-            dispatch(setCoursesAction(courses.data));
-        }
-        catch(e){
-            console.log(e)
-        }
-    }
-}
-
-export const fetchRounds = () => {
-    return async dispatch => {
-        try {
-            let rounds = await axios.get("http://localhost:5050/round/");
-            dispatch(setRoundsAction(rounds.data));
-        }
-        catch(e){
-            console.log(e)
-        }
     }
 }
 

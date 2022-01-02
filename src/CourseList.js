@@ -77,7 +77,7 @@ const CourseList = (props) => {
 }
 
 CourseList.propTypes = {
-    courses: PropTypes.array.isRequired
+    courses: PropTypes.array
 }
 
 export default CourseList;

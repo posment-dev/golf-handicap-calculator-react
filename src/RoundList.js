@@ -82,8 +82,8 @@ const RoundList = (props) => {
 }
 
 RoundList.propTypes = {
-    courses: PropTypes.array.isRequired,
-    rounds: PropTypes.array.isRequired
+    courses: PropTypes.array,
+    rounds: PropTypes.array
 }
 
 export default RoundList;

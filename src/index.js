@@ -2,15 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import store, { fetchRounds, fetchCourses } from './store';
+import store, { setCoursesAction, setRoundsAction } from './store';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { StyledEngineProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 // Fetch Data from DB, before component renders
-store.dispatch(fetchCourses());
-store.dispatch(fetchRounds());
+Promise.all([
+  axios.get("http://localhost:5050/course/"),
+  axios.get("http://localhost:5050/round/"),
+]).then(([courses, rounds]) => {
+  console.log(rounds);
+  console.log(courses);
+  store.dispatch(setCoursesAction(courses.data));
+  store.dispatch(setRoundsAction(rounds.data));
+})
 
 ReactDOM.render(
   <React.StrictMode>
