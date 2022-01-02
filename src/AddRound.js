@@ -47,8 +47,9 @@ function AddRound(props) {
                                 label='Date'
                                 mask='__.__.____'
                                 disableFuture
+                                name='datePicker'
                                 value={date}
-                                renderInput={(params) => <TextField {...params} name='date' color='primary' />}
+                                renderInput={(params) => <TextField {...params} name='roundDate' color='primary' />}
                                 onChange={(newValue) => {
                                     setDate(newValue);
                                 }}

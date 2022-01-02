@@ -9,7 +9,7 @@ const courseRoutes = express.Router();
 const dbo = require("../db/conn");
 
 // This help convert the id from string to ObjectId for the _id.
-const ObjectId = require("mongodb").ObjectId;
+//const ObjectId = require("mongodb").ObjectId;
 
 
 // This section will help you get a list of all the courses.
@@ -27,8 +27,7 @@ courseRoutes.route("/course").get(function (req, res) {
 // This section will help you get a single course by id
 courseRoutes.route("/course/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
-  console.log('\n Get Course by ID: ' + req.params.id + "\n")
+  let myquery = { id: parseInt(req.params.id) };
   db_connect
       .collection("courses")
       .findOne(myquery, function (err, result) {
@@ -46,7 +45,7 @@ courseRoutes.route("/course/add").post(function (req, response) {
     name: req.body.name,
     par: req.body.par,
     slope: req.body.slope,
-    course_rating: req.body.cr,
+    courseRating: req.body.courseRating,
     tees: req.body.tees,
   };
   db_connect.collection("courses").insertOne(myobj, function (err, res) {
@@ -58,14 +57,14 @@ courseRoutes.route("/course/add").post(function (req, response) {
 // This section will help you update a course by id.
 courseRoutes.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = { id: parseInt(req.params.id) };
   let newvalues = {
     $set: {
       id : req.body.id,
       name: req.body.name,
       par: req.body.par,
       slope: req.body.slope,
-      course_rating: req.body.cr,
+      courseRating: req.body.courseRating,
       tees: req.body.tees,
     },
   };
@@ -81,7 +80,7 @@ courseRoutes.route("/update/:id").post(function (req, response) {
 // This section will help you delete a course
 courseRoutes.route("/courses/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = { id: parseInt(req.params.id) };
   db_connect.collection("courses").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");

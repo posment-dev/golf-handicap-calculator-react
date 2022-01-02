@@ -7,7 +7,7 @@ const roundRoutes = express.Router();
 const dbo = require("../db/conn");
 
 // This help convert the id from string to ObjectId for the _id.
-const ObjectId = require("mongodb").ObjectId;
+//const ObjectId = require("mongodb").ObjectId;
 
 
 // This section will help you get a list of all the rounds.
@@ -25,7 +25,7 @@ roundRoutes.route("/round").get(function (req, res) {
 // This section will help you get a single round by id
 roundRoutes.route("/round/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = { id: parseInt(req.params.id) };
   db_connect
       .collection("rounds")
       .findOne(myquery, function (err, result) {
@@ -43,7 +43,7 @@ roundRoutes.route("/round/add").post(function (req, response) {
       date: req.body.date,
       hcp: req.body.hcp,
       score: req.body.score,
-      score_typ: req.body.scoreTyp,
+      scoreTyp: req.body.scoreTyp,
       pcc: req.body.pcc,
   };
   db_connect.collection("rounds").insertOne(myobj, function (err, res) {
@@ -55,7 +55,7 @@ roundRoutes.route("/round/add").post(function (req, response) {
 // This section will help you update a round by id.
 roundRoutes.route("/round/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId( req.params.id )};
+  let myquery = { id: parseInt(req.params.id) };
   let newvalues = {
     $set: {
         id: req.body.id,
@@ -63,7 +63,7 @@ roundRoutes.route("/round/update/:id").post(function (req, response) {
         date: req.body.date,
         hcp: req.body.hcp,
         score: req.body.score,
-        score_typ: req.body.scoreTyp,
+        scoreTyp: req.body.scoreTyp,
         pcc: req.body.pcc,
     },
   };
@@ -79,8 +79,7 @@ roundRoutes.route("/round/update/:id").post(function (req, response) {
 // This section will help you delete a round
 roundRoutes.route("/round/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
-  let myquery = { id: req.params.id };
-  console.log('This is the query to delete ' + JSON.stringify(myquery));
+  let myquery = { id: parseInt(req.params.id) };
   db_connect.collection("rounds").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log("1 document deleted");

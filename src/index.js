@@ -6,6 +6,7 @@ import store, { fetchRounds, fetchCourses } from './store';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 // Fetch Data from DB, before component renders
 store.dispatch(fetchCourses());
@@ -15,7 +16,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <StyledEngineProvider injectFirst>
+          <App />
+        </StyledEngineProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,
