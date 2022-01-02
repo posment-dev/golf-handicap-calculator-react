@@ -1,6 +1,5 @@
 import { createStore, combineReducers , applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import axios from 'axios';
 
 const ADD_COURSE = 'ADD_COURSE'
 const SET_COURSES = 'SET_COURSES'
@@ -54,12 +53,10 @@ export function removeRoundAction (id) {
 function courses (state = [], action) {
     switch(action.type) {
     case ADD_COURSE :
-        axios.post("http://localhost:5050/course/add", action.course);
         return state.concat([action.course]);
     case SET_COURSES :
         return action.courses;
     case REMOVE_COURSE :
-        axios.delete('http://localhost:5050/course/' + action.id);
         return state.filter((course) => course.id !== action.id);
     default :
         return state;
@@ -69,14 +66,10 @@ function courses (state = [], action) {
 function rounds (state = [], action) {
     switch(action.type) {
         case ADD_ROUND :
-            axios
-            .post("http://localhost:5050/round/add", action.round)
-            .then((res) => console.log(res.data));
             return state.concat([action.round])
         case SET_ROUNDS :
             return action.rounds;
         case REMOVE_ROUND :
-            axios.delete('http://localhost:5050/round/' + action.id).then((response) => {console.log(response.data)});
             return state.filter((round) => round.id !== action.id)
         default :
             return state

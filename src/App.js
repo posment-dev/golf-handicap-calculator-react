@@ -2,13 +2,15 @@ import './App.css';
 import AddCourse from './AddCourse';
 import AddRound from './AddRound';
 import NavBar from './NavBar';
-import { addRoundAction, addCourseAction } from './store';
+import { addRoundAction, addCourseAction, removeRoundAction, removeCourseAction } from './store';
 import { findHighestIdObjectArray } from './Utils';
 import CourseList from './CourseList';
 import RoundList from './RoundList';
 
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
+import axios from 'axios';
 
 function App() {
 
@@ -29,6 +31,12 @@ function App() {
       pcc: +event.target.pcc.value,
     };
     dispatch(addRoundAction(round));
+    axios.post("http://localhost:5050/round/add", round)
+    .catch((err) => {
+        console.log(err);
+        dispatch(removeRoundAction(round.id));
+        alert('Add new Round failed. Try again.');
+    })
   }
 
   const handleAddCourse = (event) => {
@@ -43,6 +51,12 @@ function App() {
       slope: +event.target.slope.value,
     };
     dispatch(addCourseAction(course));
+    axios.post("http://localhost:5050/course/add", course)
+    .catch((err) => {
+        console.log(err);
+        dispatch(removeCourseAction(course.id));
+        alert('Add new Round failed. Try again.');
+    })
   }
 
   return (

@@ -9,8 +9,10 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 
-import { removeCourseAction } from './store';
+import { addCourseAction, removeCourseAction } from './store';
 import { useDispatch } from 'react-redux';
+
+import axios from 'axios';
 
 import PropTypes from 'prop-types';
 
@@ -28,6 +30,16 @@ const CourseList = (props) => {
 
     const { courses, loading } = props;
     const dispatch = useDispatch();
+
+    const removeCourse = course => {
+        dispatch(removeCourseAction(course.id));
+        axios.delete('http://localhost:5050/course/' + course.id)
+        .catch((err) => {
+            console.log(err);
+            dispatch(addCourseAction(course));
+            alert('Delete failed. Try again.');
+        });
+    }
 
     if (loading === true) {
         return (<h3>Loading...</h3>)
@@ -66,7 +78,7 @@ const CourseList = (props) => {
                                 type='submit'
                                 color='primary'
                                 size='large'
-                                onClick={() => { dispatch(removeCourseAction(course.id)) }}
+                                onClick={() => { removeCourse(course) }}
                             >
                                 <Delete />
                             </IconButton>

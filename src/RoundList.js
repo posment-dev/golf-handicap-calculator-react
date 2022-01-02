@@ -9,8 +9,10 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 
-import { removeRoundAction } from './store';
+import { addRoundAction, removeRoundAction } from './store';
 import { useDispatch } from 'react-redux';
+
+import axios from 'axios';
 
 import PropTypes from 'prop-types';
 
@@ -24,7 +26,18 @@ const RoundList = (props) => {
         [`&.${tableCellClasses.body}`]: {
           fontSize: 14,
         },
-      }));
+    }));
+
+    const removeRound = round => {
+        dispatch(removeRoundAction(round.id));
+        axios.delete('http://localhost:5050/round/' + round.id)
+        .catch((err) => {
+            console.log(err);
+            dispatch(addRoundAction(round));
+            alert('Delete failed. Try again.');
+        });
+
+    }
 
     const { courses, rounds, loading } = props;
     const dispatch = useDispatch();
@@ -72,7 +85,7 @@ const RoundList = (props) => {
                                 type='submit'
                                 color='primary'
                                 size='large'
-                                onClick={() => { dispatch(removeRoundAction(round.id)) }}
+                                onClick={() => { removeRound(round) }}
                             >
                                 <Delete />
                             </IconButton>
