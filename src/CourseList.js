@@ -6,6 +6,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import Delete from '@mui/icons-material/Delete';
+
+import { removeCourseAction } from './store';
+import { useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
 
@@ -22,6 +27,7 @@ const CourseList = (props) => {
       }));
 
     const { courses } = props;
+    const dispatch = useDispatch();
 
     return (
         <div>
@@ -35,6 +41,7 @@ const CourseList = (props) => {
                             <StyledTableCell align="right">Par</StyledTableCell>
                             <StyledTableCell align="right">Course Rating</StyledTableCell>
                             <StyledTableCell align="right">Slope Rating</StyledTableCell>
+                            <StyledTableCell />
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -50,6 +57,16 @@ const CourseList = (props) => {
                             <StyledTableCell align="right">{course.par}</StyledTableCell>
                             <StyledTableCell align="right">{course.courseRating}</StyledTableCell>
                             <StyledTableCell align="right">{course.slope}</StyledTableCell>
+                            <StyledTableCell align='right'>
+                            <IconButton
+                                type='submit'
+                                color='primary'
+                                size='large'
+                                onClick={() => { dispatch(removeCourseAction(course.id)) }}
+                            >
+                                <Delete />
+                            </IconButton>
+                            </StyledTableCell>
                         </TableRow>
                         ))}
                     </TableBody>

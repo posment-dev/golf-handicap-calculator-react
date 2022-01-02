@@ -78,12 +78,12 @@ courseRoutes.route("/update/:id").post(function (req, response) {
 });
 
 // This section will help you delete a course
-courseRoutes.route("/courses/:id").delete((req, response) => {
+courseRoutes.route("/course/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { id: parseInt(req.params.id) };
   db_connect.collection("courses").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
-    console.log("1 document deleted");
+    console.log('Course with id ' + req.params.id + ' was deleted.');
     response.status(obj);
   });
 });
