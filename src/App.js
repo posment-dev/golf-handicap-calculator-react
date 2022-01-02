@@ -2,7 +2,7 @@ import './App.css';
 import AddCourse from './AddCourse';
 import AddRound from './AddRound';
 import NavBar from './NavBar';
-import { addRoundAction, addCourseAction, selectCourses, selectRounds } from './store';
+import { addRoundAction, addCourseAction } from './store';
 import { findHighestIdObjectArray } from './Utils';
 import CourseList from './CourseList';
 import RoundList from './RoundList';
@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function App() {
 
   const dispatch = useDispatch();
-  const courses = useSelector(selectCourses);
-  const rounds = useSelector(selectRounds);
+  const courses = useSelector(state => state.courses);
+  const rounds = useSelector(state => state.rounds);
+  const loading = useSelector(state => state.loading);
 
   const handleAddRound = (event, date) => {
     event.preventDefault();
@@ -53,10 +54,10 @@ function App() {
         <Routes>
           <Route path='/courses'
             element={<AddCourse handleSubmit={handleAddCourse} />} />
-          <Route exact path='/' element={<AddRound handleSubmit={handleAddRound} courses={courses} />} />
+          <Route exact path='/' element={<AddRound handleSubmit={handleAddRound} courses={courses} loading={loading} />} />
         </Routes>
-        <RoundList rounds={rounds} courses={courses} />
-        <CourseList courses={courses} />
+        <RoundList rounds={rounds} courses={courses} loading={loading} />
+        <CourseList courses={courses} loading={loading} />
       </div>
     </div>
   );

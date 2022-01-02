@@ -26,8 +26,12 @@ const CourseList = (props) => {
         },
       }));
 
-    const { courses } = props;
+    const { courses, loading } = props;
     const dispatch = useDispatch();
+
+    if (loading === true) {
+        return (<h3>Loading...</h3>)
+    }
 
     return (
         <div>
@@ -77,7 +81,8 @@ const CourseList = (props) => {
 }
 
 CourseList.propTypes = {
-    courses: PropTypes.array
+    courses: PropTypes.array,
+    loading: PropTypes.bool
 }
 
 export default CourseList;

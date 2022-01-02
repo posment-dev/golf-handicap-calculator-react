@@ -68,19 +68,30 @@ function courses (state = [], action) {
 
 function rounds (state = [], action) {
     switch(action.type) {
-    case ADD_ROUND :
-        axios
-        .post("http://localhost:5050/round/add", action.round)
-        .then((res) => console.log(res.data));
-        return state.concat([action.round])
-    case SET_ROUNDS :
-        return action.rounds;
-    case REMOVE_ROUND :
-        axios.delete('http://localhost:5050/round/' + action.id).then((response) => {console.log(response.data)});
-        return state.filter((round) => round.id !== action.id)
-    default :
-        return state
+        case ADD_ROUND :
+            axios
+            .post("http://localhost:5050/round/add", action.round)
+            .then((res) => console.log(res.data));
+            return state.concat([action.round])
+        case SET_ROUNDS :
+            return action.rounds;
+        case REMOVE_ROUND :
+            axios.delete('http://localhost:5050/round/' + action.id).then((response) => {console.log(response.data)});
+            return state.filter((round) => round.id !== action.id)
+        default :
+            return state
     }
+}
+
+function loading (state = true, action) {
+    switch(action.type) {
+        case SET_ROUNDS :
+        case SET_COURSES :
+            return false;
+        default :
+            return state;
+    }
+
 }
 
 const checker = (store) => (next) => (action) => {
@@ -104,12 +115,10 @@ const logger = (store) => (next) => (action) => {
     return result
 }
 
-export const selectCourses = (state) => store.getState().courses;
-export const selectRounds = (state) => store.getState().rounds;
-
 const store = createStore(combineReducers({
     courses,
     rounds,
+    loading,
 }), applyMiddleware(thunk, checker, logger))
 
 export default store;

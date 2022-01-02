@@ -9,12 +9,16 @@ import PropTypes from 'prop-types';
 
 export default function BasicSelect(props) {
 
-  const { courses } = props;
+  const { courses, loading } = props;
   const [selectedCourse, setSelectedCourse] = useState(1);
 
   const handleChange = (event) => {
     setSelectedCourse(event.target.value);
   };
+
+  if (loading === true) {
+    return (<h3>Loading...</h3>);
+  }
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -38,5 +42,6 @@ export default function BasicSelect(props) {
 }
 
 BasicSelect.propTypes = {
-  courses: PropTypes.array.isRequired
+  courses: PropTypes.array,
+  loading: PropTypes.bool
 };

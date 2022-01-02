@@ -26,8 +26,13 @@ const RoundList = (props) => {
         },
       }));
 
-    const { courses, rounds } = props;
+    const { courses, rounds, loading } = props;
     const dispatch = useDispatch();
+
+
+    if (loading === true) {
+        return (<h3>Loading...</h3>)
+    }
 
     return (
         <div>
@@ -83,7 +88,8 @@ const RoundList = (props) => {
 
 RoundList.propTypes = {
     courses: PropTypes.array,
-    rounds: PropTypes.array
+    rounds: PropTypes.array,
+    loading: PropTypes.bool
 }
 
 export default RoundList;

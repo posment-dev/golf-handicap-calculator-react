@@ -24,7 +24,7 @@ import PropTypes from 'prop-types';
 
 function AddRound(props) {
 
-    const { handleSubmit, courses } = props;
+    const { handleSubmit, courses, loading } = props;
 
     const [date, setDate] = useState(new Date());
     
@@ -61,7 +61,7 @@ function AddRound(props) {
                         p: 1,
                         m: 1,
                     }}>
-                        <BasicSelect courses={courses}/>
+                        <BasicSelect courses={courses} loading={loading}/>
                     </Box>
                 </Box>
                 <Box sx={{
@@ -136,7 +136,8 @@ function AddRound(props) {
 }
 
 AddRound.propTypes = {
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    loading: PropTypes.bool
 };
 
 export default AddRound;
