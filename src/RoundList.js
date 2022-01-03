@@ -9,8 +9,11 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 
-import { handleRemoveRound } from './store';
+import { handleRemoveRound, handleAddRound } from './store';
 import { useDispatch } from 'react-redux';
+
+import AddRound from './AddRound';
+import { findHighestIdObjectArray } from './Utils';
 
 import PropTypes from 'prop-types';
 
@@ -29,6 +32,20 @@ const RoundList = (props) => {
     const removeRound = round => {
         dispatch(handleRemoveRound(round));
     }
+
+    const submitAddRound = (event) => {
+        event.preventDefault();
+        const highestId = findHighestIdObjectArray(rounds);
+        const round = {
+          id: highestId + 1,
+          date: event.target.roundDate.value,
+          courseId: +event.target.selCourse.value,
+          scoreTyp: event.target.scoreTyp.value,
+          score: +event.target.score.value,
+          pcc: +event.target.pcc.value,
+        };
+        dispatch(handleAddRound(round));
+      }
 
     const { courses, rounds, loading } = props;
     const dispatch = useDispatch();
@@ -86,6 +103,7 @@ const RoundList = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <AddRound handleSubmit={submitAddRound} courses={courses} loading={loading} />
         </div>
     );
 }

@@ -9,8 +9,11 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 
-import { handleRemoveCourse } from './store';
+import { handleRemoveCourse, handleAddCourse } from './store';
 import { useDispatch } from 'react-redux';
+
+import AddCourse from './AddCourse';
+import { findHighestIdObjectArray } from './Utils';
 
 import PropTypes from 'prop-types';
 
@@ -28,6 +31,20 @@ const CourseList = (props) => {
 
     const { courses, loading } = props;
     const dispatch = useDispatch();
+
+    const submitAddCourse = (event) => {
+        event.preventDefault();
+        const highestId = findHighestIdObjectArray(courses);
+        const course = {
+          id: highestId + 1,
+          name: event.target.courseName.value,
+          tees: event.target.tees.value,
+          par: +event.target.par.value,
+          courseRating: +event.target.courseRating.value,
+          slope: +event.target.slope.value,
+        };
+        dispatch(handleAddCourse(course));
+      }
 
     const removeCourse = course => {
         dispatch(handleRemoveCourse(course));
@@ -80,6 +97,7 @@ const CourseList = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <AddCourse handleSubmit={submitAddCourse} />
         </div>
     );
 }
