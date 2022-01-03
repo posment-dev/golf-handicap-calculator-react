@@ -103,6 +103,20 @@ export function handleRemoveRound(round, cb = () => {}) {
     }
 }
 
+export function handleInitialData() {
+    return async (dispatch) => {
+        return Promise.all([
+            axios.get("http://localhost:5050/course/"),
+            axios.get("http://localhost:5050/round/"),
+        ]).then(([courses, rounds]) => {
+            dispatch(setCoursesAction(courses.data));
+            dispatch(setRoundsAction(rounds.data));
+        })
+    }
+}
+
+
+//recuders
 function courses (state = [], action) {
     switch(action.type) {
     case ADD_COURSE :
