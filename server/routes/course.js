@@ -84,7 +84,7 @@ courseRoutes.route("/course/:id").delete((req, response) => {
   db_connect.collection("courses").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log('Course with id ' + req.params.id + ' was deleted.');
-    response.status(obj);
+    response.send(obj);
   });
 });
 

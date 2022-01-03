@@ -29,7 +29,7 @@ function AddRound(props) {
     const [date, setDate] = useState(new Date());
     
     return (
-        <form onSubmit={(event) => handleSubmit(event, date)}>
+        <form onSubmit={(event) => handleSubmit(event)}>
             <h1>Add Round</h1>
                 <Box sx={{
                     display: 'grid',

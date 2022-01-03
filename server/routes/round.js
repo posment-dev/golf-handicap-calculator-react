@@ -83,7 +83,7 @@ roundRoutes.route("/round/:id").delete((req, response) => {
   db_connect.collection("rounds").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     console.log('Round with id ' + req.params.id + ' was deleted.');
-    response.status(obj);
+    response.send(obj);
   });
 });
 

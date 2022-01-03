@@ -1,5 +1,6 @@
 import { createStore, combineReducers , applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
+import axios from 'axios';
 
 const ADD_COURSE = 'ADD_COURSE'
 const SET_COURSES = 'SET_COURSES'
@@ -12,6 +13,19 @@ export function addCourseAction (course) {
     return {
     type: ADD_COURSE,
     course,
+    }
+}
+
+export function handleAddCourse(course, cb = () => {}) {
+    return (dispatch) => {
+        dispatch(addCourseAction(course));
+        return axios.post("http://localhost:5050/course/add", course)
+        .then(() => cb() )
+        .catch((err) => {
+            console.log(err);
+            dispatch(removeCourseAction(course.id));
+            alert('Add new Course failed. Try again.');
+        })
     }
 }
 
@@ -29,10 +43,36 @@ export function removeCourseAction (id) {
     }
 }
 
+export function handleRemoveCourse(course, cb = () => {}) {
+    return async (dispatch) => {
+        dispatch(removeCourseAction(course.id));
+        return axios.delete('http://localhost:5050/course/' + course.id)
+        .then(() => cb() )
+        .catch((err) => {
+            console.log(err);
+            dispatch(addCourseAction(course));
+            alert('Deleting Course failed. Try again.');
+        })
+    }
+}
+
 export function addRoundAction (round) {
     return {
     type: ADD_ROUND,
     round,
+    }
+}
+
+export function handleAddRound(round, cb = () => {}) {
+    return async (dispatch) => {
+        dispatch(addRoundAction(round));
+        return axios.post("http://localhost:5050/round/add", round)
+        .then(() => cb() )
+        .catch((err) => {
+            console.log(err);
+            dispatch(removeRoundAction(round.id));
+            alert('Add new Round failed. Try again.');
+        })
     }
 }
 
@@ -47,6 +87,19 @@ export function removeRoundAction (id) {
     return {
     type: REMOVE_ROUND,
     id,
+    }
+}
+
+export function handleRemoveRound(round, cb = () => {}) {
+    return async (dispatch) => {
+        dispatch(removeRoundAction(round.id));
+        return axios.delete('http://localhost:5050/round/' + round.id)
+        .then(() => cb() )
+        .catch((err) => {
+            console.log(err);
+            dispatch(addRoundAction(round));
+            alert('Deleting Round failed. Try again.');
+        })
     }
 }
 
@@ -100,12 +153,12 @@ const checker = (store) => (next) => (action) => {
 }
 
 const logger = (store) => (next) => (action) => {
-    console.group(action.type)
-    console.log('The action: ', action)
-    const result = next(action)
-    console.log('The new state: ', store.getState())
-    console.groupEnd()
-    return result
+    console.group(action.type);
+    console.log('The action: ', action);
+    const result = next(action);
+    console.log('The new state: ', store.getState());
+    console.groupEnd();
+    return result;
 }
 
 const store = createStore(combineReducers({

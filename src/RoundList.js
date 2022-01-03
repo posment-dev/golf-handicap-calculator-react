@@ -9,10 +9,8 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 
-import { addRoundAction, removeRoundAction } from './store';
+import { handleRemoveRound } from './store';
 import { useDispatch } from 'react-redux';
-
-import axios from 'axios';
 
 import PropTypes from 'prop-types';
 
@@ -29,14 +27,7 @@ const RoundList = (props) => {
     }));
 
     const removeRound = round => {
-        dispatch(removeRoundAction(round.id));
-        axios.delete('http://localhost:5050/round/' + round.id)
-        .catch((err) => {
-            console.log(err);
-            dispatch(addRoundAction(round));
-            alert('Delete failed. Try again.');
-        });
-
+        dispatch(handleRemoveRound(round));
     }
 
     const { courses, rounds, loading } = props;
