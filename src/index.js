@@ -14,8 +14,6 @@ Promise.all([
   axios.get("http://localhost:5050/course/"),
   axios.get("http://localhost:5050/round/"),
 ]).then(([courses, rounds]) => {
-  console.log(rounds);
-  console.log(courses);
   store.dispatch(setCoursesAction(courses.data));
   store.dispatch(setRoundsAction(rounds.data));
 })
