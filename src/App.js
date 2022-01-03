@@ -5,13 +5,20 @@ import CourseList from './CourseList';
 import RoundList from './RoundList';
 
 import { Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 function App() {
 
-  const courses = useSelector(state => state.courses);
-  const rounds = useSelector(state => state.rounds);
-  const loading = useSelector(state => state.loading);
+  const ConnectedRounds = connect((state) => ({
+    courses: state.courses,
+    rounds: state.rounds,
+    loading: state.loading,
+  }))(RoundList);
+
+  const ConnectedCourses = connect((state) => ({
+    courses: state.courses,
+    loading: state.loading,
+  }))(CourseList);
 
   return (
     <div className="App">
@@ -23,20 +30,13 @@ function App() {
           <Route 
             exact path='/'
             element={
-              <RoundList 
-                rounds={rounds}
-                courses={courses}
-                loading={loading}
-              />
+              <ConnectedRounds />
             }
           />
           <Route
             path='/courses'
             element={
-              <CourseList
-                courses={courses}
-                loading={loading}
-              />
+              <ConnectedCourses />
             }
           />
         </Routes>
