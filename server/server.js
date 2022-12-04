@@ -8,7 +8,6 @@ app.use(cors());
 app.use(express.json());
 app.use(require("./routes/round"));
 app.use(require("./routes/course"));
-app.use(require("./routes/hcp"));
 // get driver connection
 const dbo = require("./db/conn");
 
