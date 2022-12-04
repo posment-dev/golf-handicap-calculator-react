@@ -135,7 +135,6 @@ export function handleInitialData() {
         return Promise.all([
             axios.get("http://localhost:5050/course/"),
             axios.get("http://localhost:5050/round/"),
-            axios.get("http://localhost:5050/hcp/"),
         ]).then(([courses, rounds, hcp]) => {
             dispatch(setCoursesAction(courses.data));
             dispatch(setRoundsAction(rounds.data));
