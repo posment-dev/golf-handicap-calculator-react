@@ -7,3 +7,8 @@ export const findHighestIdObjectArray = (array) => {
     });
     return highestId;
 }
+
+export const calulateScoreDifferential = (scoreTyp, score, pcc, courseRating, slopeRating) => {
+  // stroke 18
+  return (113 / slopeRating) * (score - courseRating) - pcc;
+}

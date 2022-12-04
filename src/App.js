@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 
 import CourseList from './CourseList';
 import RoundList from './RoundList';
+import Dash from './Dashboard';
 
 import { Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -14,6 +15,11 @@ function App() {
     rounds: state.rounds,
     loading: state.loading,
   }))(RoundList);
+
+  const Dashboard = connect((state) => ({
+    hcp: state.hcp,
+    loading: state.loading,
+  }))(Dash);
 
   const ConnectedCourses = connect((state) => ({
     courses: state.courses,
@@ -30,7 +36,10 @@ function App() {
           <Route 
             exact path='/'
             element={
-              <ConnectedRounds />
+              <div>
+                <Dashboard />
+                <ConnectedRounds />
+              </div>
             }
           />
           <Route
