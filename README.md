@@ -2,6 +2,8 @@
 
 This is my golf hcp calculator app build with react and material ui
 
+Start server with command: node server.js (in server folder)
+Client see below
 
 # Start point create react app
 
