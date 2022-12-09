@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import InputField from './InputField';
 import BasicSelect from './BasicSelect';
-/*import { addCourseAction, selectCourses } from './store';
-import { useDispatch, useSelector } from 'react-redux';*/
+import { ScoreType } from './Enums'
 
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
@@ -81,18 +80,16 @@ function AddRound(props) {
                             //onChange={this.onScoreTypChange}
                             row
                         >
-                            <FormControlLabel 
-                                key='Stableford'
-                                value='Stableford'
-                                label='Stableford'
-                                control={<Radio size='small' />}                        
-                            />
-                            <FormControlLabel 
-                                key='Strokeplay'
-                                value='Strokeplay'
-                                label='Strokeplay'
-                                control={<Radio size='small' />}
-                            />
+                            {Object.keys(ScoreType).map( type => {
+                               return (
+                                 <FormControlLabel
+                                    key={type}
+                                    value={type}
+                                    label={type} 
+                                    control={<Radio size='small' />
+                                  }/>    
+                                )
+                            })}
                         </RadioGroup>
                     </Box>
                     <Box sx={{
@@ -104,6 +101,17 @@ function AddRound(props) {
                             name='score'
                             type='number'
                             label='Score'
+                        />
+                    </Box>
+                    <Box sx={{
+                        display: 'grid',
+                        p: 1,
+                        m: 1,
+                    }}>
+                        <InputField
+                            name='adjGrossScore'
+                            type='number'
+                            label='Adjusted Gross Score'
                         />
                     </Box>
                     <Box sx={{

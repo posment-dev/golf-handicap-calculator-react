@@ -17,12 +17,14 @@ function App() {
   }))(RoundList);
 
   const Dashboard = connect((state) => ({
-    hcp: state.hcp,
+    courses: state.courses,
+    rounds: state.rounds,
     loading: state.loading,
   }))(Dash);
 
   const ConnectedCourses = connect((state) => ({
     courses: state.courses,
+    rounds: state.rounds,
     loading: state.loading,
   }))(CourseList);
 

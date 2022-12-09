@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 export default function BasicSelect(props) {
 
   const { courses, loading } = props;
-  const [selectedCourse, setSelectedCourse] = useState(1);
+  const [selectedCourse, setSelectedCourse] = useState(Math.min.apply(null, courses.map(a => a.id)));
 
   const handleChange = (event) => {
     setSelectedCourse(event.target.value);

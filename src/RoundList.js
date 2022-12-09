@@ -29,6 +29,9 @@ const RoundList = (props) => {
         },
     }));
 
+    const { courses, rounds, loading } = props;
+    const dispatch = useDispatch();
+
     const removeRound = round => {
         dispatch(handleRemoveRound(round));
     }
@@ -39,16 +42,14 @@ const RoundList = (props) => {
         const round = {
           id: highestId + 1,
           date: event.target.roundDate.value,
-          courseId: +event.target.selCourse.value,
+          courseId: parseInt(event.target.selCourse.value),
           scoreTyp: event.target.scoreTyp.value,
-          score: +event.target.score.value,
-          pcc: +event.target.pcc.value,
+          score: parseInt(event.target.score.value),
+          adjGrossScore: parseInt(event.target.adjGrossScore.value),
+          pcc: parseInt(event.target.pcc.value),
         };
         dispatch(handleAddRound(round));
       }
-
-    const { courses, rounds, loading } = props;
-    const dispatch = useDispatch();
 
 
     if (loading === true) {
@@ -62,20 +63,23 @@ const RoundList = (props) => {
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
+                            <StyledTableCell>ID</StyledTableCell>
                             <StyledTableCell>Date</StyledTableCell>
                             <StyledTableCell>Course / Tees</StyledTableCell>
                             <StyledTableCell>Score Typ</StyledTableCell>
                             <StyledTableCell align="right">Score</StyledTableCell>
+                            <StyledTableCell align="right">Adj Gross Score</StyledTableCell>
                             <StyledTableCell align="right">PCC</StyledTableCell>
                             <StyledTableCell />
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rounds.map((round) => (
+                        {rounds.map((round, index) => (
                         <TableRow
                             key={round.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
+                            <StyledTableCell>{index+1}</StyledTableCell>
                             <StyledTableCell>{round.date}</StyledTableCell>
                             <StyledTableCell>
                                 { courses.filter(course => 
@@ -87,6 +91,7 @@ const RoundList = (props) => {
                             </StyledTableCell>
                             <StyledTableCell>{round.scoreTyp}</StyledTableCell>
                             <StyledTableCell align="right">{round.score}</StyledTableCell>
+                            <StyledTableCell align="right">{round.adjGrossScore}</StyledTableCell>
                             <StyledTableCell align="right">{round.pcc}</StyledTableCell>
                             <StyledTableCell align='right'>
                             <IconButton

@@ -29,7 +29,7 @@ const CourseList = (props) => {
         },
       }));
 
-    const { courses, loading } = props;
+    const { courses, rounds, loading } = props;
     const dispatch = useDispatch();
 
     const submitAddCourse = (event) => {
@@ -39,15 +39,19 @@ const CourseList = (props) => {
           id: highestId + 1,
           name: event.target.courseName.value,
           tees: event.target.tees.value,
-          par: +event.target.par.value,
-          courseRating: +event.target.courseRating.value,
-          slope: +event.target.slope.value,
+          par: parseInt(event.target.par.value),
+          courseRating: parseInt(event.target.courseRating.value),
+          slope: parseInt(event.target.slope.value),
         };
         dispatch(handleAddCourse(course));
       }
 
     const removeCourse = course => {
-        dispatch(handleRemoveCourse(course));
+        if (rounds.map(round => round.courseId).includes(course.id)) {
+            alert("That's a bad idea.\nYou are not allowed to delete a course, which is used by at least one round.\nDelete Rounds first.");
+        } else {
+            dispatch(handleRemoveCourse(course));
+        }
     }
 
     if (loading === true) {

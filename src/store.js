@@ -1,7 +1,6 @@
 import { createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import { calulateScoreDifferential } from './Utils';
 
 const ADD_COURSE = 'ADD_COURSE'
 const SET_COURSES = 'SET_COURSES'
@@ -9,7 +8,6 @@ const REMOVE_COURSE = 'REMOVE_COURSE'
 const ADD_ROUND = 'ADD_ROUND'
 const SET_ROUNDS = 'SET_ROUNDS'
 const REMOVE_ROUND = 'REMOVE_ROUND'
-const SET_HCP = 'SET_HCP'
 
 export function addCourseAction (course) {
     return {
@@ -105,31 +103,6 @@ export function handleRemoveRound(round, cb = () => {}) {
     }
 }
 
-export function setHcpAction (rounds, courses) {
-    // Calculate HCP Data
-    const sds = rounds.map( function(round) {
-        let course = courses.find(course => course.id === round.courseId);
-        console.log(course);
-        return calulateScoreDifferential(round.scoreTyp, round.score, round.pcc, course.courseRating, course.slope);
-        }
-    );
-    let currentHcp = sds.reduce( function(a,b) {
-        return a + (b/rounds.length)
-    }, 0);
-    currentHcp = currentHcp.toFixed(2);
-    const lowestSD = Math.min.apply(null, sds).toFixed(2);
-    const highestSD = Math.max.apply(null, sds).toFixed(2);
-    const hcp = {
-        currentHcp: currentHcp,
-        lowestSD: lowestSD,
-        highestSD: highestSD,
-    };
-    return {
-        type: SET_HCP,
-        hcp,
-    }
-}
-
 export function handleInitialData() {
     return async (dispatch) => {
         return Promise.all([
@@ -138,7 +111,6 @@ export function handleInitialData() {
         ]).then(([courses, rounds, hcp]) => {
             dispatch(setCoursesAction(courses.data));
             dispatch(setRoundsAction(rounds.data));
-            dispatch(setHcpAction(rounds.data, courses.data));
         })
     }
 }
@@ -161,7 +133,8 @@ function courses (state = [], action) {
 function rounds (state = [], action) {
     switch(action.type) {
         case ADD_ROUND :
-            return state.concat([action.round])
+            let newState = state.concat([action.round]);
+            return newState
         case SET_ROUNDS :
             return action.rounds;
         case REMOVE_ROUND :
@@ -171,20 +144,10 @@ function rounds (state = [], action) {
     }
 }
 
-function hcp (state = [], action) {
-    switch(action.type) {
-        case SET_HCP :
-            return action.hcp;
-        default :
-            return state
-    }
-}
-
 function loading (state = true, action) {
     switch(action.type) {
         case SET_ROUNDS :
         case SET_COURSES :
-        case SET_HCP:
             return false;
         default :
             return state;
@@ -193,14 +156,6 @@ function loading (state = true, action) {
 }
 
 const checker = (store) => (next) => (action) => {
-    if (
-        action.type === REMOVE_COURSE &&
-        store.getState().rounds.map(round => round.courseId)
-        .includes(action.id)
-    ) {
-        return alert("That's a bad idea.\nYou are not allowed to delete a course, which is used by at least one round.")
-    }
-
     return next(action)
 }
 
@@ -216,7 +171,6 @@ const logger = (store) => (next) => (action) => {
 const store = createStore(combineReducers({
     courses,
     rounds,
-    hcp,
     loading,
 }), applyMiddleware(thunk, checker, logger))
 

@@ -1,14 +1,11 @@
 export const findHighestIdObjectArray = (array) => {
-    let highestId = 0;
-    array.forEach(el => {
-      if(el.id > highestId) {
-        highestId = el.id;
-      }
-    });
-    return highestId;
+  return Math.max.apply(null, array.map(a => a.id))
+}
+
+export const findLowestIdObjectArray = (array) => {
+  return Math.min.apply(null, array.map(a => a.id))
 }
 
 export const calulateScoreDifferential = (scoreTyp, score, pcc, courseRating, slopeRating) => {
-  // stroke 18
-  return (113 / slopeRating) * (score - courseRating) - pcc;
+  return (113 / slopeRating) * (score + pcc - courseRating);
 }

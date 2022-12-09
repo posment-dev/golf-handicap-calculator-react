@@ -1,36 +1,38 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import Delete from '@mui/icons-material/Delete';
-
-import { handleRemoveRound, handleAddRound } from './store';
-import { useDispatch } from 'react-redux';
-
-import AddRound from './AddRound';
-import { findHighestIdObjectArray } from './Utils';
+import { calulateScoreDifferential } from './Utils';
 
 import PropTypes from 'prop-types';
 
-const RoundList = (props) => {
+const Dashboard = (props) => {
 
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-          backgroundColor: theme.palette.common.black,
-          color: theme.palette.common.white,
-        },
-        [`&.${tableCellClasses.body}`]: {
-          fontSize: 14,
-        },
-    }));
+    const { rounds, courses, loading } = props;
 
-    const { hcp, loading } = props;
-    const dispatch = useDispatch();
+    
+    // Calculate HCP Data
+    let newest20 = rounds;
+    if (newest20.length > 20) {
+        newest20.sort(function(a, b) {
+            return new Date(a.date) - new Date(b.date);
+        });
+        newest20 = newest20.slice(0,20);
+    }
+    const sds = rounds.map( function(round) {
+        let course = courses.find(course => course.id === round.courseId);
+        const sd = calulateScoreDifferential(round.scoreTyp, round.adjGrossScore, round.pcc, course.courseRating, course.slope);
+        return {roundId: round.id, sd: sd};
+        }
+    );
+    // Define what rounds count to HCP
+    let currentHcp = sds.slice(0,8).reduce( function(a,b) {
+        return a + (b.sd/8)
+    }, 0);
+    currentHcp = currentHcp.toFixed(1);
+    const lowestSD = Math.min.apply(null, sds.map(s => s.sd)).toFixed(1);
+    const highestSD = Math.max.apply(null, sds.map(s => s.sd)).toFixed(1);
+    const hcp = {
+        currentHcp: currentHcp,
+        lowestSD: lowestSD,
+        highestSD: highestSD,
+    };
 
 
     if (loading === true) {
@@ -46,10 +48,10 @@ const RoundList = (props) => {
     );
 }
 
-RoundList.propTypes = {
+Dashboard.propTypes = {
     courses: PropTypes.array,
     rounds: PropTypes.array,
     loading: PropTypes.bool
 }
 
-export default RoundList;
+export default Dashboard;
